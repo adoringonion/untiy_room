@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
 
-const GamesPage: NextPage = () => {
+const PostGamePage: NextPage = () => {
   return (
     <Box>
       <h1>Games Page</h1>
@@ -9,4 +9,4 @@ const GamesPage: NextPage = () => {
   );
 };
 
-export default GamesPage;
+export default PostGamePage;

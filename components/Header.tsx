@@ -101,24 +101,26 @@ export default function Header() {
             {!session ? (
               <Auth />
             ) : (
-              <Menu>
-                <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
-                  <Avatar size={'md'} src={user?.user_metadata['avatar_url']} />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem>
-                    <Link href={'/user/post-game'}>ゲームを投稿する</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href={'/user/games'}>投稿ゲーム一覧</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href={'/user/profile'}>プロフィール</Link>
-                  </MenuItem>
-                  <MenuDivider />
-                  <MenuItem onClick={logout}>ログアウト</MenuItem>
-                </MenuList>
-              </Menu>
+              <Flex alignItems={'center'}>
+                <Button variant={'solid'} colorScheme={'blue'} size={'sm'} mr={4}>
+                  <Link href={'games/post'}>ゲームを投稿する</Link>
+                </Button>
+                <Menu>
+                  <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
+                    <Avatar size={'md'} src={user?.user_metadata['avatar_url']} />
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem>
+                      <Link href={'/user/games'}>投稿ゲーム一覧</Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link href={'/user/profile'}>プロフィール</Link>
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem onClick={logout}>ログアウト</MenuItem>
+                  </MenuList>
+                </Menu>
+              </Flex>
             )}
           </Flex>
         </Flex>
