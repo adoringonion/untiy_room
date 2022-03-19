@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { supabaseClient } from '../utils/supabaseClient';
 
 const Auth = () => {
-
   const tryLogin = async () => {
     const { user, session, error } = await supabaseClient.auth.signIn({
       provider: 'twitter',
@@ -22,6 +21,10 @@ const Auth = () => {
         e.preventDefault();
         tryLogin();
       }}
+      variant={'solid'}
+      colorScheme={'teal'}
+      size={'sm'}
+      mr={4}
     >
       {'Twitterログイン'}
     </Button>

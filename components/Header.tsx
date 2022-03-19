@@ -48,15 +48,14 @@ export default function Header() {
 
     supabaseClient.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      getUser();
     });
-
-  }, []);
+    getUser();
+  }, [session]);
 
   const getUser = async () => {
-    const user = supabaseClient.auth.user();
-    if (user !== null) {
-      setUser(user);
+    const auser = supabaseClient.auth.user();
+    if (auser !== null && user === null) {
+      setUser(auser);
       console.log(user);
     }
   };
@@ -69,7 +68,16 @@ export default function Header() {
 
   return (
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box
+        bg={useColorModeValue('white', 'gray.800')}
+        color={useColorModeValue('gray.600', 'white')}
+        minH={'20px'}
+        py={{ base: 2 }}
+        px={{ base: 4 }}
+        borderBottom={1}
+        borderStyle={'solid'}
+        borderColor={useColorModeValue('gray.200', 'gray.900')}
+      >
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -92,11 +100,18 @@ export default function Header() {
             ) : (
               <Menu>
                 <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
-                  <Avatar size={'sm'} src={user?.user_metadata['avatar_url']} />
+                  <Avatar size={'md'} src={user?.user_metadata['avatar_url']} />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>投稿ゲーム一覧</MenuItem>
-                  <MenuItem>プロフィール</MenuItem>
+                  <MenuItem>
+                    <Link href={'/user/post-game'}>ゲームを投稿する</Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link href={'/user/games'}>投稿ゲーム一覧</Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link href={'/user/profile'}>プロフィール</Link>
+                  </MenuItem>
                   <MenuDivider />
                   <MenuItem onClick={logout}>ログアウト</MenuItem>
                 </MenuList>
