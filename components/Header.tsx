@@ -103,7 +103,7 @@ export default function Header() {
             ) : (
               <Flex alignItems={'center'}>
                 <Button variant={'solid'} colorScheme={'blue'} size={'sm'} mr={4}>
-                  <Link href={'games/post'}>ゲームを投稿する</Link>
+                  <Link href={'/games/post'}>ゲームを投稿する</Link>
                 </Button>
                 <Menu>
                   <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
