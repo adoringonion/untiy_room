@@ -47,6 +47,7 @@ const PostGamePage: NextPage = () => {
         },
       ]);
 
+
       if (error) {
         toast({
           title: '投稿に失敗しました',
