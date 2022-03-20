@@ -89,7 +89,9 @@ export default function Header() {
           />
           <HStack spacing={8} alignItems={'center'}>
             <Box>
-              <Image src='/logo.png' alt='logo' />
+              <Link href={'/'}>
+                <Image src='/logo.png' alt='logo' />
+              </Link>
             </Box>
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
