@@ -16,8 +16,10 @@ import {
   useColorModeValue,
   Select,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { FieldValue, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { supabaseClient } from '../../utils/supabaseClient';
@@ -28,6 +30,8 @@ const PostGamePage: NextPage = () => {
     register,
     formState: { errors, isSubmitting },
   } = useForm();
+  const toast = useToast();
+  const router = useRouter();
 
   const onSubmit = async (values: FieldValues) => {
     const user = supabaseClient.auth.user();
@@ -44,9 +48,20 @@ const PostGamePage: NextPage = () => {
       ]);
 
       if (error) {
-        console.error(error);
-        alert('投稿に失敗しました');
-        return;
+        toast({
+          title: '投稿に失敗しました',
+          status: 'error',
+          duration: 4500,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: '投稿に成功しました',
+          status: 'success',
+          duration: 4500,
+          isClosable: true,
+        });
+        router.push(`/games/${values.id}/edit`);
       }
     }
   };
