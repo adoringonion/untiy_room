@@ -46,18 +46,17 @@ export default function Header() {
 
   useEffect(() => {
     setSession(supabaseClient.auth.session());
+    getUser();
 
     supabaseClient.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
-    getUser();
-  }, [session]);
+  }, [session, user]);
 
   const getUser = async () => {
     const auser = supabaseClient.auth.user();
     if (auser !== null && user === null) {
       setUser(auser);
-      console.log(user);
     }
   };
 

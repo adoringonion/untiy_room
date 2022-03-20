@@ -69,7 +69,7 @@ const EditGamePage: NextPage = () => {
         <Tab>WebGL アップロード</Tab>
       </TabList>
 
-      <TabPanels bg={useColorModeValue('gray.50', 'gray.800')} minH={'100%'}>
+      <TabPanels bg={'gray.50'} minH={'100%'}>
         <TabPanel>
           <GameBasicInfo game={game} user={user} />
         </TabPanel>
