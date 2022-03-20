@@ -182,21 +182,18 @@ const WebGLUpload: VFC<Props> = (props) => {
   const toast = useToast();
 
   const onSubmit = async (values: FieldValues) => {
-    const bucket = await supabaseClient.storage.getBucket('games');
-    console.log(bucket);
-
     const loader = await supabaseClient.storage
       .from('games')
-      .upload(`${game.game_id}/loader.js`, values.loader[0], { upsert: true });
+      .upload(`${game.game_id}/loader.js`, values.loader[0], { upsert: true});
     const framework = await supabaseClient.storage
       .from('games')
-      .upload(`${game.game_id}/framework.js.gz`, values.framework[0], { upsert: true });
+      .upload(`${game.game_id}/framework.js`, values.framework[0], { upsert: true});
     const data = await supabaseClient.storage
       .from('games')
-      .upload(`${game.game_id}/data.gz`, values.data[0], { upsert: true });
+      .upload(`${game.game_id}/data`, values.data[0], { upsert: true});
     const wasm = await supabaseClient.storage
       .from('games')
-      .upload(`${game.game_id}/wasm.gz`, values.wasm[0], { upsert: true });
+      .upload(`${game.game_id}/wasm`, values.wasm[0], { upsert: true });
 
     const error = loader.error || framework.error || data.error || wasm.error;
     if (error) {
@@ -227,15 +224,15 @@ const WebGLUpload: VFC<Props> = (props) => {
               <Input type={'file'} {...register('loader')} />
             </FormControl>
             <FormControl isRequired>
-              <FormLabel>.framework.js.gz ファイル</FormLabel>
+              <FormLabel>.framework.js ファイル</FormLabel>
               <Input type={'file'} {...register('framework')} />
             </FormControl>
             <FormControl isRequired>
-              <FormLabel>.data.gz ファイル</FormLabel>
+              <FormLabel>.data ファイル</FormLabel>
               <Input type={'file'} {...register('data')} />
             </FormControl>
             <FormControl isRequired>
-              <FormLabel>.wasm.gz ファイル</FormLabel>
+              <FormLabel>.wasm ファイル</FormLabel>
               <Input type={'file'} {...register('wasm')} />
             </FormControl>
 
