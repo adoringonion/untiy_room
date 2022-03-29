@@ -20,9 +20,9 @@ import {
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { FieldValue, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { supabaseClient } from '../../utils/supabaseClient';
+import { useUser } from '../../contexts/UserContext';
+import { supabaseClient } from '../../lib/supabaseClient';
 
 const PostGamePage: NextPage = () => {
   const {
@@ -32,6 +32,7 @@ const PostGamePage: NextPage = () => {
   } = useForm();
   const toast = useToast();
   const router = useRouter();
+  const {user} = useUser();
 
   const onSubmit = async (values: FieldValues) => {
     const user = supabaseClient.auth.user();
@@ -66,6 +67,16 @@ const PostGamePage: NextPage = () => {
       }
     }
   };
+
+  if (!user) {
+    return (
+      <Box>
+        <Heading>ゲームを投稿するにはログインしてください</Heading>
+      </Box>
+    );
+  }
+    
+  }
 
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'} bg={useColorModeValue('gray.50', 'gray.800')}>

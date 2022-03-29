@@ -1,6 +1,6 @@
 import { Session, User } from '@supabase/supabase-js';
 import { ReactNode, useEffect, useState } from 'react';
-import { supabaseClient } from '../utils/supabaseClient';
+import { supabaseClient } from '../lib/supabaseClient';
 import Auth from './Auth';
 import {
   Box,

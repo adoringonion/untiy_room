@@ -1,6 +1,6 @@
 import { Button } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { supabaseClient } from '../utils/supabaseClient';
+import { supabaseClient } from '../lib/supabaseClient';
 
 const Auth = () => {
   const tryLogin = async () => {

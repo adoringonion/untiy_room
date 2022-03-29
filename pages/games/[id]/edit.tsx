@@ -23,7 +23,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState, VFC } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { supabaseClient } from '../../../utils/supabaseClient';
+import { supabaseClient } from '../../../lib/supabaseClient';
 
 type Game = {
   id: string;
