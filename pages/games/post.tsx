@@ -18,8 +18,9 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/react';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { FieldValue, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useUser } from '../../contexts/UserContext';
 import { supabaseClient } from '../../lib/supabaseClient';
@@ -32,7 +33,6 @@ const PostGamePage: NextPage = () => {
   } = useForm();
   const toast = useToast();
   const router = useRouter();
-  const {user} = useUser();
 
   const onSubmit = async (values: FieldValues) => {
     const user = supabaseClient.auth.user();
@@ -47,7 +47,6 @@ const PostGamePage: NextPage = () => {
           user_id: user.id,
         },
       ]);
-
 
       if (error) {
         toast({
@@ -67,16 +66,6 @@ const PostGamePage: NextPage = () => {
       }
     }
   };
-
-  if (!user) {
-    return (
-      <Box>
-        <Heading>ゲームを投稿するにはログインしてください</Heading>
-      </Box>
-    );
-  }
-    
-  }
 
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'} bg={useColorModeValue('gray.50', 'gray.800')}>
@@ -140,3 +129,19 @@ const PostGamePage: NextPage = () => {
 };
 
 export default PostGamePage;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const{ user} = await supabaseClient.auth.api.getUserByCookie(req);
+  if (user === null) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/',
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

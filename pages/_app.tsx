@@ -7,11 +7,9 @@ import Provider from '../contexts/UserContext';
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ChakraProvider>
-      <Provider>
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </Provider>
     </ChakraProvider>
   );
 };
