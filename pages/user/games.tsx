@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import { requiredAuth } from '../../lib/withAuth';
 
 const GamesPage: NextPage = () => {
   return (
@@ -9,3 +10,5 @@ const GamesPage: NextPage = () => {
 };
 
 export default GamesPage;
+
+export const getServerSideProps = requiredAuth;

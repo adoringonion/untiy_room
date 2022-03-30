@@ -24,6 +24,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState, VFC } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { supabaseClient } from '../../../lib/supabaseClient';
+import { requiredAuth } from '../../../lib/withAuth';
 
 type Game = {
   id: string;
@@ -265,3 +266,5 @@ const WebGLSettings: VFC<Props> = (props) => {
 };
 
 export default EditGamePage;
+
+export const getServerSideProps = requiredAuth;

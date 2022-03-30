@@ -24,6 +24,7 @@ import { useEffect } from 'react';
 import { FieldValue, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useUser } from '../../contexts/UserContext';
 import { supabaseClient } from '../../lib/supabaseClient';
+import { requiredAuth } from '../../lib/withAuth';
 
 const PostGamePage: NextPage = () => {
   const {
@@ -130,18 +131,4 @@ const PostGamePage: NextPage = () => {
 
 export default PostGamePage;
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const{ user} = await supabaseClient.auth.api.getUserByCookie(req);
-  if (user === null) {
-    return {
-      props: {},
-      redirect: {
-        destination: '/',
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
+export const getServerSideProps = requiredAuth;
