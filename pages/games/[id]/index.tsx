@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Unity, { UnityContext } from 'react-unity-webgl';
-import { supabaseClient } from '../../../utils/supabaseClient';
+import { supabaseClient } from '../../../lib/supabaseClient';
 
 type GameURL = {
   loaderURL: string;

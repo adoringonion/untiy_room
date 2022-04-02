@@ -1,7 +1,4 @@
-import { Session, User } from '@supabase/supabase-js';
-import { ReactNode, useEffect, useState } from 'react';
-import { supabaseClient } from '../utils/supabaseClient';
-import Auth from './Auth';
+import { ReactNode, useEffect } from 'react';
 import {
   Box,
   Flex,
@@ -20,7 +17,11 @@ import {
   Stack,
   Image,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { sessionAtom } from '../lib/authProvider';
+import { supabaseClient } from '../lib/supabaseClient';
+import { useAtom } from 'jotai';
+import router from 'next/router';
 
 const Links = ['新着フリーゲーム', '人気ランキング', 'ゲームジャム'];
 
@@ -41,30 +42,29 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useAtom(sessionAtom);
 
-  useEffect(() => {
-    setSession(supabaseClient.auth.session());
-    getUser();
-
-    supabaseClient.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
+  const tryLogin = async () => {
+    await supabaseClient.auth.signIn({
+      provider: 'twitter',
     });
-  }, [session, user]);
-
-  const getUser = async () => {
-    const auser = supabaseClient.auth.user();
-    if (auser !== null && user === null) {
-      setUser(auser);
-    }
   };
 
   const logout = async () => {
     await supabaseClient.auth.signOut();
-    setSession(null);
-    setUser(null);
+    router.push('/');
   };
+
+  useEffect(() => {
+    const { data } = supabaseClient.auth.onAuthStateChange((event, _session) => {
+      console.log("change", event, _session);
+      setSession(_session);
+    });
+
+    return () => {
+      data?.unsubscribe();
+    };
+  }, []);
 
   return (
     <>
@@ -100,7 +100,18 @@ export default function Header() {
           </HStack>
           <Flex alignItems={'center'}>
             {!session ? (
-              <Auth />
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  tryLogin();
+                }}
+                variant={'solid'}
+                colorScheme={'teal'}
+                size={'sm'}
+                mr={4}
+              >
+                {'Twitterログイン'}
+              </Button>
             ) : (
               <Flex alignItems={'center'}>
                 <Button variant={'solid'} colorScheme={'blue'} size={'sm'} mr={4}>
@@ -108,7 +119,7 @@ export default function Header() {
                 </Button>
                 <Menu>
                   <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
-                    <Avatar size={'md'} src={user?.user_metadata['avatar_url']} />
+                    <Avatar size={'md'} src={session.user?.user_metadata['avatar_url']} />
                   </MenuButton>
                   <MenuList>
                     <MenuItem>

@@ -1,10 +1,11 @@
 import { NextPage } from 'next';
+import { RequiredAuth } from '../../components/RequiredAuth';
 
 const ProfilePage: NextPage = () => {
   return (
-    <div>
+    <RequiredAuth>
       <h1>Test Page</h1>
-    </div>
+    </RequiredAuth>
   );
 };
 
