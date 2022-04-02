@@ -22,6 +22,7 @@ import { sessionAtom } from '../lib/authProvider';
 import { supabaseClient } from '../lib/supabaseClient';
 import { useAtom } from 'jotai';
 import router from 'next/router';
+import NextLink from 'next/link';
 
 const Links = ['新着フリーゲーム', '人気ランキング', 'ゲームジャム'];
 
@@ -57,7 +58,7 @@ export default function Header() {
 
   useEffect(() => {
     const { data } = supabaseClient.auth.onAuthStateChange((event, _session) => {
-      console.log("change", event, _session);
+      console.log('change', event, _session);
       setSession(_session);
     });
 
@@ -88,9 +89,9 @@ export default function Header() {
           />
           <HStack spacing={8} alignItems={'center'}>
             <Box>
-              <Link href={'/'}>
+              <NextLink href='/'>
                 <Image src='/logo.png' alt='logo' />
-              </Link>
+              </NextLink>
             </Box>
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
@@ -115,7 +116,9 @@ export default function Header() {
             ) : (
               <Flex alignItems={'center'}>
                 <Button variant={'solid'} colorScheme={'blue'} size={'sm'} mr={4}>
-                  <Link href={'/games/post'}>ゲームを投稿する</Link>
+                  <NextLink href='/games/post' passHref>
+                    <Link>ゲームを投稿する</Link>
+                  </NextLink>
                 </Button>
                 <Menu>
                   <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
@@ -123,10 +126,14 @@ export default function Header() {
                   </MenuButton>
                   <MenuList>
                     <MenuItem>
-                      <Link href={'/user/games'}>投稿ゲーム一覧</Link>
+                      <NextLink href='/user/games' passHref>
+                        <Link>投稿ゲーム一覧</Link>
+                      </NextLink>
                     </MenuItem>
                     <MenuItem>
-                      <Link href={'/user/profile'}>プロフィール</Link>
+                      <NextLink href='/user/profile' passHref>
+                        <Link>プロフィール</Link>
+                      </NextLink>
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={logout}>ログアウト</MenuItem>
