@@ -17,8 +17,11 @@ import {
   Stack,
   Image,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
-import { useUser } from '../contexts/UserContext';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { sessionAtom } from '../lib/authProvider';
+import { supabaseClient } from '../lib/supabaseClient';
+import { useAtom } from 'jotai';
+import router from 'next/router';
 
 const Links = ['新着フリーゲーム', '人気ランキング', 'ゲームジャム'];
 
@@ -39,7 +42,29 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { session, tryLogin, logout } = useUser();
+  const [session, setSession] = useAtom(sessionAtom);
+
+  const tryLogin = async () => {
+    await supabaseClient.auth.signIn({
+      provider: 'twitter',
+    });
+  };
+
+  const logout = async () => {
+    await supabaseClient.auth.signOut();
+    router.push('/');
+  };
+
+  useEffect(() => {
+    const { data } = supabaseClient.auth.onAuthStateChange((event, _session) => {
+      console.log("change", event, _session);
+      setSession(_session);
+    });
+
+    return () => {
+      data?.unsubscribe();
+    };
+  }, []);
 
   return (
     <>

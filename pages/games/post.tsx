@@ -1,4 +1,3 @@
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
   Box,
   Text,
@@ -7,24 +6,18 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  HStack,
   Input,
-  InputGroup,
-  InputRightElement,
-  Link,
   Stack,
   useColorModeValue,
   Select,
   Textarea,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { FieldValue, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useUser } from '../../contexts/UserContext';
+import { FieldValues, useForm } from 'react-hook-form';
 import { supabaseClient } from '../../lib/supabaseClient';
-import { requiredAuth } from '../../lib/withAuth';
 
 const PostGamePage: NextPage = () => {
   const {
@@ -34,6 +27,11 @@ const PostGamePage: NextPage = () => {
   } = useForm();
   const toast = useToast();
   const router = useRouter();
+
+  useEffect(() => {
+
+  }, [])
+  
 
   const onSubmit = async (values: FieldValues) => {
     const user = supabaseClient.auth.user();
@@ -131,4 +129,4 @@ const PostGamePage: NextPage = () => {
 
 export default PostGamePage;
 
-export const getServerSideProps = requiredAuth;
+
