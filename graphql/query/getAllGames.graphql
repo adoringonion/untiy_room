@@ -1,0 +1,9 @@
+query GetAllGames {
+    games {
+        id
+        play_time
+        slug
+        thumbnail_url
+        title
+     }
+}
