@@ -30,7 +30,6 @@ const PostGamePage: NextPage = () => {
   } = useForm();
   const toast = useToast();
   const router = useRouter();
-  const [session] = useAtom(sessionAtom);
 
   const onSubmit = async (values: FieldValues) => {
     const user = supabaseClient.auth.user();

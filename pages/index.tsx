@@ -1,4 +1,6 @@
+import { Center, Grid, GridItem, Spinner } from '@chakra-ui/react';
 import type { NextPage } from 'next';
+import { GameCard } from '../components/games/GameCard';
 
 import { useGetAllGamesQuery } from '../graphql/generated/graphql';
 
@@ -6,18 +8,28 @@ const Home: NextPage = () => {
   const { loading, error, data } = useGetAllGamesQuery();
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
   }
 
   if (error) {
-    return <p>Error {error.message}</p>;
+    return <div>Error</div>;
   }
 
   if (data) {
-    return <p>{JSON.stringify(data)} </p>;
+    return (
+      <Grid templateColumns='repeat(4, 1fr)' gap={3}>
+        {data.games.map((game) => (
+          <GridItem>
+            <GameCard title={game.title} slug={game.slug} thumbnailURL={game.thumbnail_url} author='test'></GameCard>
+          </GridItem>
+        ))}
+      </Grid>
+    );
   }
-
-  return <p>No data</p>;
 };
 
 export default Home;

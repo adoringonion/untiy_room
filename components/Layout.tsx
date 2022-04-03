@@ -1,4 +1,5 @@
-import { ReactElement } from 'react';
+import { Box, Container, Flex, useColorModeValue } from '@chakra-ui/react';
+import { Children, ReactElement } from 'react';
 import Header from './Header';
 
 type LayoutProps = Required<{
@@ -8,7 +9,15 @@ type LayoutProps = Required<{
 const Layout = ({ children }: LayoutProps) => (
   <>
     <Header />
-    <main>{children}</main>
+    <Main children={children} />
+  </>
+);
+
+const Main = ({ children }: LayoutProps) => (
+  <>
+    <main>
+      <Box bg={useColorModeValue('gray.50', 'gray.800')}>{children}</Box>
+    </main>
   </>
 );
 

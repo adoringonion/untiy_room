@@ -1,7 +1,15 @@
 import { Box, Center, Heading, Stack, useColorModeValue, Text, Image } from '@chakra-ui/react';
 import { Game } from '../../types/game';
 
-const GameCard = (game: Game) => {
+type GameCardProps = {
+  title : string;
+  thumbnailURL : string | null | undefined;
+  slug : string;
+  author : string;
+};
+
+
+export const GameCard = (props : GameCardProps) => {
   return (
     <Center py={12}>
       <Box
@@ -10,7 +18,7 @@ const GameCard = (game: Game) => {
         maxW={'330px'}
         w={'full'}
         bg={useColorModeValue('white', 'gray.800')}
-        boxShadow={'2xl'}
+        boxShadow={'lg'}
         rounded={'lg'}
         pos={'relative'}
         zIndex={1}
@@ -28,7 +36,7 @@ const GameCard = (game: Game) => {
             pos: 'absolute',
             top: 5,
             left: 0,
-            backgroundImage: `url(${game.thumbnailURL})`,
+            backgroundImage: `url(${props.thumbnailURL})`,
             filter: 'blur(15px)',
             zIndex: -1,
           }}
@@ -38,15 +46,15 @@ const GameCard = (game: Game) => {
             },
           }}
         >
-          <Image rounded={'lg'} height={230} width={282} objectFit={'cover'} src={game.thumbnailURL} />
+          <Image rounded={'lg'} height={230} width={282} objectFit={'cover'} src={props.thumbnailURL ? props.thumbnailURL : ''} />
         </Box>
         <Stack pt={10} align={'center'}>
           <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-            {game.title}
+            {props.title}
           </Heading>
           <Stack direction={'row'} align={'center'}>
             <Text fontWeight={800} fontSize={'xl'}>
-              {game.userName}
+              {props.author}
             </Text>
           </Stack>
         </Stack>
